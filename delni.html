@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delni App — Muhannad ALHaber</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #FFFFFF;
+            --surface: #F7F6F3;
+            --text: #37352F;
+            --text-secondary: #787774;
+            --border: #E3E2DE;
+            --blue: #2EAADC;
+            --blue-bg: #D3E5EF;
+            --red: #EB5757;
+            --red-bg: #FFE2DD;
+            --green: #4DAB9A;
+            --green-bg: #DBEDDB;
+            --purple: #9065B0;
+            --purple-bg: #E8DEEE;
+            --orange: #D9730D;
+            --orange-bg: #FADEC9;
+            --gold: #CB912F;
+            --gold-bg: #FDECC8;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Readex Pro', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Back nav */
+        .back-nav {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--bg);
+            border-bottom: 1.75px solid var(--border);
+            padding: 16px 24px;
+        }
+        .back-nav a {
+            text-decoration: none; color: var(--text-secondary); font-size: 14px; font-weight: 500;
+            display: inline-flex; align-items: center; gap: 8px; transition: color 0.2s;
+        }
+        .back-nav a:hover { color: var(--blue); }
+
+        /* Container */
+        .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+        /* Hero */
+        .hero {
+            padding: 64px 24px 48px;
+            text-align: center;
+            background: var(--surface);
+            border-bottom: 1.75px solid var(--border);
+        }
+        .hero-label {
+            display: inline-block; padding: 4px 14px; border-radius: 6px;
+            background: var(--blue-bg); color: var(--blue);
+            font-size: 13px; font-weight: 600; margin-bottom: 16px;
+            border: 1.75px solid var(--blue);
+        }
+        .hero h1 { font-size: 42px; font-weight: 700; margin-bottom: 12px; }
+        .hero p { font-size: 18px; color: var(--text-secondary); max-width: 600px; margin: 0 auto 32px; }
+        .hero-meta {
+            display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;
+            font-size: 14px; color: var(--text-secondary);
+        }
+        .hero-meta span { display: flex; align-items: center; gap: 6px; }
+        .hero-meta strong { color: var(--text); font-weight: 600; }
+
+        /* Phone mockup row */
+        .phone-row {
+            display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+            padding: 48px 24px;
+            background: var(--surface);
+        }
+        .phone-frame {
+            width: 220px; border-radius: 16px; overflow: hidden;
+            border: 1.75px solid var(--border);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            background: var(--bg);
+        }
+        .phone-frame img { width: 100%; height: auto; display: block; }
+
+        /* Section */
+        .section {
+            padding: 64px 24px;
+            opacity: 0; transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .section.visible { opacity: 1; transform: translateY(0); }
+
+        .section-label {
+            display: inline-block; padding: 4px 12px; border-radius: 6px;
+            font-size: 12px; font-weight: 600; text-transform: uppercase;
+            margin-bottom: 12px; border: 1.75px solid;
+        }
+        .section h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+        .section p.desc { font-size: 16px; color: var(--text-secondary); max-width: 600px; line-height: 1.7; }
+
+        /* Feature row — alternating image + text */
+        .feature {
+            display: flex; align-items: center; gap: 48px;
+            padding: 48px 0;
+            border-bottom: 1.75px solid var(--border);
+        }
+        .feature:last-child { border-bottom: none; }
+        .feature.reverse { flex-direction: row-reverse; }
+        .feature-img {
+            flex: 0 0 260px; border-radius: 16px; overflow: hidden;
+            border: 1.75px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        .feature-img img { width: 100%; height: auto; display: block; }
+        .feature-text { flex: 1; }
+        .feature-text .chip {
+            display: inline-block; padding: 3px 10px; border-radius: 6px;
+            font-size: 12px; font-weight: 600; margin-bottom: 10px;
+            border: 1.75px solid;
+        }
+        .feature-text h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+        .feature-text p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; }
+
+        /* Tech stack */
+        .tech-grid {
+            display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px;
+        }
+        .tech-item {
+            padding: 8px 18px; border-radius: 8px;
+            background: var(--surface); border: 1.75px solid var(--border);
+            font-size: 14px; font-weight: 500; color: var(--text);
+        }
+
+        /* Wireframe section */
+        .wireframe-img {
+            max-width: 100%; border-radius: 16px; overflow: hidden;
+            border: 1.75px solid var(--border);
+            margin-top: 24px;
+        }
+        .wireframe-img img { width: 100%; height: auto; display: block; }
+
+        /* More projects */
+        .more-projects {
+            padding: 64px 24px;
+            background: var(--surface);
+            border-top: 1.75px solid var(--border);
+            text-align: center;
+        }
+        .more-projects h2 { font-size: 24px; margin-bottom: 24px; }
+        .more-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .more-card {
+            background: var(--bg); border: 1.75px solid var(--border); border-radius: 12px;
+            padding: 24px; width: 280px; text-decoration: none; color: var(--text);
+            transition: all 0.3s;
+        }
+        .more-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+        .more-card .icon { font-size: 32px; margin-bottom: 8px; }
+        .more-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+        .more-card p { font-size: 13px; color: var(--text-secondary); }
+
+        /* Footer */
+        footer {
+            text-align: center; padding: 24px;
+            font-size: 13px; color: var(--text-secondary);
+            border-top: 1.75px solid var(--border);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 28px; }
+            .phone-row { gap: 12px; }
+            .phone-frame { width: 160px; }
+            .feature { flex-direction: column !important; gap: 24px; }
+            .feature-img { flex: none; width: 100%; max-width: 300px; }
+            .hero-meta { gap: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- BACK NAV -->
+<nav class="back-nav">
+    <a href="index.html">&larr; Back to Portfolio</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+    <span class="hero-label">Startup</span>
+    <h1>Delni App</h1>
+    <p>Hospital indoor navigation platform that helps patients, visitors, and staff find their way inside large Saudi hospitals.</p>
+    <div class="hero-meta">
+        <span><strong>Year:</strong> 2024 - Present</span>
+        <span><strong>Role:</strong> Co-Founder &amp; Product Owner</span>
+        <span><strong>Category:</strong> Mobile App</span>
+        <span><strong>Platform:</strong> iOS &amp; Web</span>
+    </div>
+    </div>
+</div>
+
+<!-- PHONE MOCKUP ROW -->
+<div class="phone-row">
+    <div class="phone-frame"><img src="assets/delni/map-home.png" alt="Delni floor plan map"></div>
+    <div class="phone-frame"><img src="assets/delni/navigation-route.png" alt="Delni navigation path"></div>
+    <div class="phone-frame"><img src="assets/delni/dark-mode.png" alt="Delni dark mode"></div>
+</div>
+
+<!-- THE PROBLEM -->
+<div class="container">
+    <div class="section" id="problem">
+        <span class="section-label" style="background: var(--red-bg); color: var(--red); border-color: var(--red);">The Problem</span>
+        <h2>Hospitals Are Confusing</h2>
+        <p class="desc">Patients — especially elderly and first-time visitors — get lost inside large hospitals. They miss appointments, panic during emergencies, and waste time asking for directions. In Saudi Arabia, major hospitals have hundreds of rooms across multiple floors with no indoor navigation solution.</p>
+    </div>
+
+    <!-- THE SOLUTION -->
+    <div class="section" id="solution">
+        <span class="section-label" style="background: var(--green-bg); color: var(--green); border-color: var(--green);">The Solution</span>
+        <h2>Google Maps, But Inside Hospitals</h2>
+        <p class="desc">Delni (Arabic: "Guide me") provides interactive floor plan maps with animated navigation paths, voice commands in English and Arabic, and specialized modes for appointments, patient visits, and emergencies. Currently deployed across 2 major Saudi hospitals with 6 floors mapped.</p>
+    </div>
+</div>
+
+<!-- KEY FEATURES -->
+<div class="container">
+    <div class="section" id="features">
+        <span class="section-label" style="background: var(--blue-bg); color: var(--blue); border-color: var(--blue);">Key Features</span>
+        <h2>What Delni Does</h2>
+
+        <!-- Feature 1: Floor Plan Navigation -->
+        <div class="feature">
+            <div class="feature-img"><img src="assets/delni/navigation-floor1.png" alt="Navigation path on floor plan"></div>
+            <div class="feature-text">
+                <span class="chip" style="background: var(--blue-bg); color: var(--blue); border-color: var(--blue);">Navigation</span>
+                <h3>Interactive Floor Plan Navigation</h3>
+                <p>Animated navigation paths drawn on precise floor plans. Shows distance (meters) and estimated walk time. Supports 2 hospitals with 3 floors each — every clinic, department, and room mapped with coordinate-level accuracy.</p>
+            </div>
+        </div>
+
+        <!-- Feature 2: Appointment Reminder -->
+        <div class="feature reverse">
+            <div class="feature-img"><img src="assets/delni/appointments.png" alt="Appointment reminder with countdown"></div>
+            <div class="feature-text">
+                <span class="chip" style="background: var(--green-bg); color: var(--green); border-color: var(--green);">Appointments</span>
+                <h3>Appointment Reminder System</h3>
+                <p>Set reminders for your hospital appointments. The app shows a countdown timer and when you arrive at the hospital, navigates you directly to the right clinic. Built for people managing appointments for family members — parents, children.</p>
+            </div>
+        </div>
+
+        <!-- Feature 3: Visit Patient -->
+        <div class="feature">
+            <div class="feature-img"><img src="assets/delni/visit-patient.png" alt="Visit Patient room details"></div>
+            <div class="feature-text">
+                <span class="chip" style="background: var(--purple-bg); color: var(--purple); border-color: var(--purple);">Visitor Mode</span>
+                <h3>Visit Patient</h3>
+                <p>Enter the room number and get instant directions. Shows visiting hours, visiting rules, floor location, and the fastest route. Quick access buttons for common rooms — one tap to navigate.</p>
+            </div>
+        </div>
+
+        <!-- Feature 4: Emergency -->
+        <div class="feature reverse">
+            <div class="feature-img"><img src="assets/delni/emergency.png" alt="Emergency mode"></div>
+            <div class="feature-text">
+                <span class="chip" style="background: var(--red-bg); color: var(--red); border-color: var(--red);">Emergency</span>
+                <h3>Emergency Mode</h3>
+                <p>One-tap navigation to the Emergency Department. Shows the fastest route, distance in meters, and estimated walk time. Includes a direct call button to 997 (Saudi emergency number) for immediate assistance.</p>
+            </div>
+        </div>
+
+        <!-- Feature 5: Voice Assistant -->
+        <div class="feature">
+            <div class="feature-img"><img src="assets/delni/voice-assistant.png" alt="Voice assistant"></div>
+            <div class="feature-text">
+                <span class="chip" style="background: var(--purple-bg); color: var(--purple); border-color: var(--purple);">Voice</span>
+                <h3>Voice Assistant</h3>
+                <p>Speak naturally in English or Arabic — "Take me to the pharmacy" or "I want to visit room 201". The app understands and navigates. Essential for elderly patients or those unfamiliar with the hospital layout.</p>
+            </div>
+        </div>
+
+        <!-- Feature 6: AI Map Generation -->
+        <div class="feature reverse">
+            <div class="feature-img"><img src="assets/delni/add-hospital.png" alt="AI hospital map generation"></div>
+            <div class="feature-text">
+                <span class="chip" style="background: var(--orange-bg); color: var(--orange); border-color: var(--orange);">AI</span>
+                <h3>AI-Powered Map Generation</h3>
+                <p>Upload a hospital floor plan image and the AI automatically generates a navigable map. Hospitals can onboard themselves without manual mapping — dramatically reducing setup time for new facilities.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BILINGUAL -->
+<div class="container">
+    <div class="section">
+        <span class="section-label" style="background: var(--gold-bg); color: var(--gold); border-color: var(--gold);">Accessibility</span>
+        <h2>Built for Everyone</h2>
+        <p class="desc">Full bilingual support (English and Arabic with RTL layout), dark mode, and a dedicated accessibility mode that provides wheelchair-friendly routes avoiding stairs. Every feature works in both languages.</p>
+    </div>
+</div>
+
+<!-- WIREFRAMES -->
+<div class="container">
+    <div class="section">
+        <span class="section-label" style="background: var(--surface); color: var(--text-secondary); border-color: var(--border);">Process</span>
+        <h2>Brainstorm Sketching</h2>
+        <p class="desc">Early-stage wireframes exploring user flows — from the first screen to appointment management and patient visit flows.</p>
+        <div class="wireframe-img">
+            <img src="assets/delni/Untitled_Artwork 5.png" alt="Hand-drawn wireframe sketches">
+        </div>
+    </div>
+</div>
+
+<!-- TECH STACK -->
+<div class="container">
+    <div class="section">
+        <span class="section-label" style="background: var(--blue-bg); color: var(--blue); border-color: var(--blue);">Tech Stack</span>
+        <h2>Built With</h2>
+        <div class="tech-grid">
+            <span class="tech-item">Flutter</span>
+            <span class="tech-item">Dart</span>
+            <span class="tech-item">Riverpod</span>
+            <span class="tech-item">Go Router</span>
+            <span class="tech-item">Hive DB</span>
+            <span class="tech-item">CustomPaint</span>
+            <span class="tech-item">Readex Pro</span>
+            <span class="tech-item">Material 3</span>
+        </div>
+    </div>
+</div>
+
+<!-- HACKATHON -->
+<div class="container">
+    <div class="section">
+        <span class="section-label" style="background: var(--green-bg); color: var(--green); border-color: var(--green);">Hackathon</span>
+        <h2>Presented at Tuwaiqthon</h2>
+        <p class="desc">Delni App was presented at the Tuwaiqthon hackathon organized by Tuwaiq Academy, pitching the product to judges and competing teams.</p>
+    </div>
+</div>
+
+<!-- LIVE DEMO -->
+<div class="container">
+    <div class="section" style="text-align: center;">
+        <span class="section-label" style="background: var(--blue-bg); color: var(--blue); border-color: var(--blue);">Try It</span>
+        <h2>Live Demo</h2>
+        <p class="desc" style="margin: 0 auto 24px;">Experience Delni yourself — navigate King Faisal Specialist Hospital and Riyadh Care Hospital in your browser.</p>
+        <a href="https://deleni-f.onrender.com" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; background: var(--blue); color: #fff; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px;">
+            Try Live Demo &rarr;
+        </a>
+        <p style="margin-top: 10px; font-size: 12px; color: var(--text-secondary);">May take 30s to load (free hosting)</p>
+    </div>
+</div>
+
+<!-- MORE PROJECTS -->
+<div class="more-projects">
+    <h2>More Projects</h2>
+    <div class="more-grid">
+        <a href="maali.html" class="more-card">
+            <div class="icon">&#x1F9E0;</div>
+            <h3>Al-Ma'ali — AI Mental Health</h3>
+            <p>AI-powered mental health support app. 2nd Place at Monshaat Bootcamp.</p>
+        </a>
+        <a href="index.html#projects" class="more-card">
+            <div class="icon">&#x1F4CA;</div>
+            <h3>Saudi Payment System</h3>
+            <p>ML model predicting POS transaction growth. Graduation Project.</p>
+        </a>
+    </div>
+</div>
+
+<footer>&copy; 2026 Muhannad ALHaber</footer>
+
+<script>
+// Scroll reveal
+const sections = document.querySelectorAll('.section');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, { threshold: 0.1 });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

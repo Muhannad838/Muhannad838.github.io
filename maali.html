@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al-Ma'ali App — Muhannad ALHaber</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-dark: #0F1923;
+            --bg-card: #162230;
+            --bg-lighter: #1C2D3F;
+            --teal: #00BFA5;
+            --teal-glow: rgba(0, 191, 165, 0.15);
+            --text-white: #EAEAEA;
+            --text-muted: #8899AA;
+            --border: #253545;
+            --orange: #E8A838;
+            --orange-bg: rgba(232, 168, 56, 0.15);
+            --purple: #B388FF;
+            --purple-bg: rgba(179, 136, 255, 0.15);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-white);
+            line-height: 1.6;
+        }
+
+        /* Back nav */
+        .back-nav {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--bg-dark);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+        }
+        .back-nav a {
+            text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 500;
+            display: inline-flex; align-items: center; gap: 8px; transition: color 0.2s;
+        }
+        .back-nav a:hover { color: var(--teal); }
+
+        /* Container */
+        .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+        /* Hero */
+        .hero {
+            padding: 64px 24px 48px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-card) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 16px; border-radius: 20px;
+            background: var(--teal-glow); color: var(--teal);
+            font-size: 13px; font-weight: 600; margin-bottom: 16px;
+            border: 1px solid rgba(0, 191, 165, 0.3);
+        }
+        .hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 12px; }
+        .hero p { font-size: 18px; color: var(--text-muted); max-width: 600px; margin: 0 auto 32px; }
+        .hero-meta {
+            display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;
+            font-size: 14px; color: var(--text-muted);
+        }
+        .hero-meta span { display: flex; align-items: center; gap: 6px; }
+        .hero-meta strong { color: var(--text-white); font-weight: 600; }
+
+        /* Phone mockup row */
+        .phone-row {
+            display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+            padding: 48px 24px;
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-dark) 100%);
+        }
+        .phone-frame {
+            width: 220px; border-radius: 16px; overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 40px rgba(0, 191, 165, 0.1);
+            background: var(--bg-card);
+        }
+        .phone-frame img { width: 100%; height: auto; display: block; }
+
+        /* Section */
+        .section {
+            padding: 64px 24px;
+            opacity: 0; transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .section.visible { opacity: 1; transform: translateY(0); }
+
+        .section-label {
+            display: inline-block; padding: 4px 12px; border-radius: 12px;
+            font-size: 12px; font-weight: 600; text-transform: uppercase;
+            margin-bottom: 12px; border: 1px solid;
+        }
+        .section h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+        .section p.desc { font-size: 16px; color: var(--text-muted); max-width: 600px; line-height: 1.7; }
+
+        /* Feature row */
+        .feature {
+            display: flex; align-items: center; gap: 48px;
+            padding: 48px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .feature:last-child { border-bottom: none; }
+        .feature.reverse { flex-direction: row-reverse; }
+        .feature-img {
+            flex: 0 0 240px; border-radius: 16px; overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+        }
+        .feature-img img { width: 100%; height: auto; display: block; }
+        .feature-text { flex: 1; }
+        .feature-text .chip {
+            display: inline-block; padding: 3px 10px; border-radius: 12px;
+            font-size: 12px; font-weight: 600; margin-bottom: 10px;
+            border: 1px solid;
+        }
+        .feature-text h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+        .feature-text p { font-size: 15px; color: var(--text-muted); line-height: 1.7; }
+
+        /* Stats bar */
+        .stats-bar {
+            display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+            padding: 40px 24px;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .stat { text-align: center; }
+        .stat .number { font-size: 36px; font-weight: 800; color: var(--teal); }
+        .stat .label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+        /* Tech stack */
+        .tech-grid {
+            display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px;
+        }
+        .tech-item {
+            padding: 8px 18px; border-radius: 12px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            font-size: 14px; font-weight: 500; color: var(--text-white);
+        }
+
+        /* More projects */
+        .more-projects {
+            padding: 64px 24px;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+        .more-projects h2 { font-size: 24px; margin-bottom: 24px; }
+        .more-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .more-card {
+            background: var(--bg-lighter); border: 1px solid var(--border); border-radius: 16px;
+            padding: 24px; width: 280px; text-decoration: none; color: var(--text-white);
+            transition: all 0.3s;
+        }
+        .more-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+        .more-card .icon { font-size: 32px; margin-bottom: 8px; }
+        .more-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+        .more-card p { font-size: 13px; color: var(--text-muted); }
+
+        /* Footer */
+        footer {
+            text-align: center; padding: 24px;
+            font-size: 13px; color: var(--text-muted);
+            border-top: 1px solid var(--border);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 28px; }
+            .phone-row { gap: 12px; }
+            .phone-frame { width: 160px; }
+            .feature { flex-direction: column !important; gap: 24px; }
+            .feature-img { flex: none; width: 100%; max-width: 280px; }
+            .hero-meta { gap: 16px; }
+            .stats-bar { gap: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- BACK NAV -->
+<nav class="back-nav">
+    <a href="index.html">&larr; Back to Portfolio</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+    <span class="hero-badge">&#x1F3C6; 2nd Place — Monshaat Bootcamp</span>
+    <h1>Al-Ma'ali</h1>
+    <p>AI-powered mental health therapist app. Free, private, and available 24/7 for anyone who needs support.</p>
+    <div class="hero-meta">
+        <span><strong>Year:</strong> January 2026</span>
+        <span><strong>Role:</strong> UI/UX Design Lead</span>
+        <span><strong>Event:</strong> Flutter &amp; AI Bootcamp</span>
+        <span><strong>Team:</strong> 3 Members</span>
+    </div>
+</div>
+
+<!-- PHONE MOCKUP ROW -->
+<div class="phone-row">
+    <div class="phone-frame"><img src="assets/maali/PHOTO-2026-01-29-18-16-28.jpg" alt="Al-Ma'ali home dashboard"></div>
+    <div class="phone-frame"><img src="assets/maali/PHOTO-2026-01-29-18-17-33.jpg" alt="Al-Ma'ali AI chat"></div>
+    <div class="phone-frame"><img src="assets/maali/PHOTO-2026-01-29-18-17-47.jpg" alt="Al-Ma'ali performance analysis"></div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+    <div class="stat"><div class="number">4</div><div class="label">Problems Solved</div></div>
+    <div class="stat"><div class="number">7</div><div class="label">Core Features</div></div>
+    <div class="stat"><div class="number">3</div><div class="label">Target Segments</div></div>
+    <div class="stat"><div class="number">5</div><div class="label">Day Build Sprint</div></div>
+</div>
+
+<!-- THE PROBLEM -->
+<div class="container">
+    <div class="section" id="problem">
+        <span class="section-label" style="background: rgba(235,87,87,0.15); color: #EB5757; border-color: rgba(235,87,87,0.3);">The Problem</span>
+        <h2>Mental Health Support Is Broken</h2>
+        <p class="desc">In Saudi Arabia, a single therapy session costs 300-800 SAR. 70% of people needing help hesitate due to social stigma. Wait times are 2-4 weeks. And smaller cities have almost no mental health specialists. Al-Ma'ali addresses all four barriers at once.</p>
+    </div>
+
+    <!-- THE SOLUTION -->
+    <div class="section" id="solution">
+        <span class="section-label" style="background: var(--teal-glow); color: var(--teal); border-color: rgba(0,191,165,0.3);">The Solution</span>
+        <h2>Your AI Therapist — Free, Private, Always On</h2>
+        <p class="desc">Al-Ma'ali provides AI-powered mental health conversations with full encryption and anonymity. Free 24/7 chat, clinical psychological assessments, progress tracking, and smart referrals to real specialists when needed.</p>
+    </div>
+</div>
+
+<!-- KEY FEATURES -->
+<div class="container">
+    <div class="section" id="features">
+        <span class="section-label" style="background: var(--teal-glow); color: var(--teal); border-color: rgba(0,191,165,0.3);">Key Features</span>
+        <h2>How It Works</h2>
+
+        <!-- Feature 1: Registration -->
+        <div class="feature">
+            <div class="feature-img"><img src="assets/maali/PHOTO-2026-01-29-18-16-05.jpg" alt="Registration screen"></div>
+            <div class="feature-text">
+                <span class="chip" style="background: var(--teal-glow); color: var(--teal); border-color: rgba(0,191,165,0.3);">Privacy First</span>
+                <h3>Anonymous Registration</h3>
+                <p>Sign up with a nickname — or no name at all. Full end-to-end encryption. No data sharing, no ads. Everything can be permanently deleted at any time. Privacy is the foundation, not a feature.</p>
+            </div>
+        </div>
+
+        <!-- Feature 2: Dashboard -->
+        <div class="feature reverse">
+            <div class="feature-img"><img src="assets/maali/PHOTO-2026-01-29-18-16-28.jpg" alt="Smart dashboard"></div>
+            <div class="feature-text">
+                <span class="chip" style="background: var(--teal-glow); color: var(--teal); border-color: rgba(0,191,165,0.3);">Home</span>
+                <h3>Smart Dashboard</h3>
+                <p>Daily wellness tip, streak tracking, and 4 smart services at your fingertips: start a new journey (assessment), AI confidential chat, check your progress, and performance reports.</p>
+            </div>
+        </div>
+
+        <!-- Feature 3: Assessment -->
+        <div class="feature">
+            <div class="feature-img"><img src="assets/maali/PHOTO-2026-01-29-18-16-59.jpg" alt="Psychological assessment"></div>
+            <div class="feature-text">
+                <span class="chip" style="background: var(--purple-bg); color: var(--purple); border-color: rgba(179,136,255,0.3);">Assessment</span>
+                <h3>Psychological Assessment</h3>
+                <p>Clinical-grade screening using PHQ-9 and GAD-7 scales. Scores from 0-100 determine your level. Severe cases get immediate referral to emergency services. Retake anytime to track your progress.</p>
+            </div>
+        </div>
+
+        <!-- Feature 4: AI Chat -->
+        <div class="feature reverse">
+            <div class="feature-img"><img src="assets/maali/PHOTO-2026-01-29-18-17-33.jpg" alt="AI therapy chat"></div>
+            <div class="feature-text">
+                <span class="chip" style="background: var(--teal-glow); color: var(--teal); border-color: rgba(0,191,165,0.3);">AI Therapy</span>
+                <h3>Confidential AI Chat</h3>
+                <p>Talk to an AI therapist 24/7. It listens, asks questions, gives practical advice, and tracks recurring themes. No judgment, no stigma. Encrypted conversations that only you can see.</p>
+            </div>
+        </div>
+
+        <!-- Feature 5: Performance -->
+        <div class="feature">
+            <div class="feature-img"><img src="assets/maali/PHOTO-2026-01-29-18-17-47.jpg" alt="Performance analytics"></div>
+            <div class="feature-text">
+                <span class="chip" style="background: var(--orange-bg); color: var(--orange); border-color: rgba(232,168,56,0.3);">Analytics</span>
+                <h3>Performance Analytics</h3>
+                <p>Compare your initial assessment with your current state. See your improvement percentage. The example shows a jump from 45 to 88 — a 95.6% improvement. Data-driven proof that the journey is working.</p>
+            </div>
+        </div>
+
+        <!-- Feature 6: Smart Report -->
+        <div class="feature reverse">
+            <div class="feature-img"><img src="assets/maali/PHOTO-2026-01-29-18-18-24.jpg" alt="Smart report and referral"></div>
+            <div class="feature-text">
+                <span class="chip" style="background: var(--orange-bg); color: var(--orange); border-color: rgba(232,168,56,0.3);">Reports</span>
+                <h3>Smart Report &amp; Specialist Referral</h3>
+                <p>AI-generated mental health report analyzing your condition with actionable recommendations. If the app isn't enough, it refers you to nearby partner hospitals and clinics matched to your specific needs, insurance, and budget.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BUSINESS MODEL -->
+<div class="container">
+    <div class="section">
+        <span class="section-label" style="background: var(--orange-bg); color: var(--orange); border-color: rgba(232,168,56,0.3);">Business Model</span>
+        <h2>Freemium + Hospital Partnerships</h2>
+        <p class="desc">Free unlimited AI chat for everyone. Premium monthly reports (29-49 SAR/month) with detailed analytics, clinical assessments, and specialist referrals through partner hospitals. A sustainable model that keeps the core free.</p>
+    </div>
+</div>
+
+<!-- TECH STACK -->
+<div class="container">
+    <div class="section">
+        <span class="section-label" style="background: var(--teal-glow); color: var(--teal); border-color: rgba(0,191,165,0.3);">Tech Stack</span>
+        <h2>Built With</h2>
+        <div class="tech-grid">
+            <span class="tech-item">Flutter</span>
+            <span class="tech-item">Dart</span>
+            <span class="tech-item">AI / LLM</span>
+            <span class="tech-item">Figma</span>
+            <span class="tech-item">End-to-End Encryption</span>
+        </div>
+    </div>
+</div>
+
+<!-- TEAM -->
+<div class="container">
+    <div class="section">
+        <span class="section-label" style="background: var(--purple-bg); color: var(--purple); border-color: rgba(179,136,255,0.3);">Team</span>
+        <h2>Built in 5 Days</h2>
+        <p class="desc">A 3-person team at the Flutter &amp; AI Bootcamp by Monshaat and Google Developer Group (January 25-29, 2026). Muhannad led design and visual identity. Nawaf led development. Abdullah led content and user experience. Presented to professional judges and earned 2nd place.</p>
+    </div>
+</div>
+
+<!-- MORE PROJECTS -->
+<div class="more-projects">
+    <h2>More Projects</h2>
+    <div class="more-grid">
+        <a href="delni.html" class="more-card">
+            <div class="icon">&#x1F3E5;</div>
+            <h3>Delni App — Hospital Navigation</h3>
+            <p>Indoor navigation for Saudi hospitals. Startup, co-founded 2024.</p>
+        </a>
+        <a href="index.html#projects" class="more-card">
+            <div class="icon">&#x1F4CA;</div>
+            <h3>Saudi Payment System</h3>
+            <p>ML model predicting POS transaction growth. Graduation Project.</p>
+        </a>
+    </div>
+</div>
+
+<footer>&copy; 2026 Muhannad ALHaber</footer>
+
+<script>
+const sections = document.querySelectorAll('.section');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, { threshold: 0.1 });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
