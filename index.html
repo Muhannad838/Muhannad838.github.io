@@ -108,23 +108,33 @@
         .hero {
             min-height: 100vh;
             display: flex; align-items: center; justify-content: center;
-            text-align: center;
-            padding-top: 64px;
+            padding: 88px 24px 48px;
             opacity: 1; transform: none;
         }
-        .hero-content { max-width: 680px; }
+        .hero-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 32px;
+            display: flex; align-items: center; gap: 40px;
+            max-width: 1000px; width: 100%;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+        }
         .hero-photo {
-            width: 200px; height: 200px; border-radius: 50%;
-            background: #E0E0E0; margin: 0 auto 32px;
+            flex: 0 0 280px;
+            width: 280px; height: 320px;
+            border-radius: 16px;
+            background: #1B1C17;
             display: flex; align-items: center; justify-content: center;
-            font-size: 56px; font-weight: 700; color: var(--subtle);
+            font-size: 72px; font-weight: 700; color: #fff;
             overflow: hidden;
         }
-        .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
-        .hero h1 { font-size: 48px; font-weight: 800; margin-bottom: 12px; line-height: 1.15; }
-        .hero .tagline { font-size: 20px; color: var(--text); margin-bottom: 8px; font-weight: 500; }
-        .hero .subtitle { font-size: 16px; color: var(--subtle); margin-bottom: 32px; }
-        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
+        .hero-text { flex: 1; }
+        .hero h1 { font-size: 44px; font-weight: 800; margin-bottom: 14px; line-height: 1.1; letter-spacing: -0.5px; }
+        .hero .tagline { font-size: 22px; color: var(--text); margin-bottom: 10px; font-weight: 600; }
+        .hero .subtitle { font-size: 16px; color: var(--subtle); margin-bottom: 28px; line-height: 1.6; max-width: 460px; }
+        .hero-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
         .btn {
             display: inline-flex; align-items: center; justify-content: center;
             padding: 12px 28px; border-radius: 8px; font-size: 15px; font-weight: 600;
@@ -135,9 +145,13 @@
         .btn-outline { background: transparent; color: var(--primary); border-color: var(--primary); }
         .btn-outline:hover { background: var(--primary); color: #fff; }
 
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
+            .hero-card { flex-direction: column; gap: 24px; padding: 24px; text-align: center; }
+            .hero-photo { width: 220px; height: 260px; flex: none; }
             .hero h1 { font-size: 32px; }
-            .hero .tagline { font-size: 17px; }
+            .hero .tagline { font-size: 18px; }
+            .hero .subtitle { margin-left: auto; margin-right: auto; }
+            .hero-buttons { justify-content: center; }
         }
 
         /* SKILLS MARQUEE */
@@ -280,14 +294,16 @@
 
 <!-- HERO -->
 <section class="hero" id="hero">
-    <div class="hero-content">
-        <div class="hero-photo" id="heroPhoto">MA</div>
-        <h1>Muhannad ALHaber</h1>
-        <p class="tagline">Building Products That Solve Real Healthcare Problems</p>
-        <p class="subtitle">Co-Founder of Delni App | MIS Student | Flutter Developer</p>
-        <div class="hero-buttons">
-            <a href="#projects" class="btn btn-primary">View Projects</a>
-            <a href="#contact" class="btn btn-outline">Contact Me</a>
+    <div class="hero-card">
+        <div class="hero-photo" id="heroPhoto"><img src="assets/profile.jpg" alt="Muhannad AL Haber"></div>
+        <div class="hero-text">
+            <h1>Muhannad AL Haber</h1>
+            <p class="tagline">Information Systems Student &amp; Mobile Builder</p>
+            <p class="subtitle">Where data thinking meets product design.</p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">View Projects</a>
+                <a href="#contact" class="btn btn-outline">Contact Me</a>
+            </div>
         </div>
     </div>
 </section>
@@ -305,7 +321,7 @@
         <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-header">
-                <span class="timeline-title">Co-Founder & Product Owner</span>
+                <span class="timeline-title">Independent Product Builder</span>
             </div>
             <div class="timeline-company">Delni App</div>
             <div class="timeline-meta">
@@ -314,9 +330,9 @@
                 <span class="badge badge-green">Startup</span>
             </div>
             <ul class="timeline-bullets">
-                <li>Co-founded a hospital indoor navigation platform deployed across 2 major Saudi hospitals, mapping 6 floors with coordinate-based navigation</li>
+                <li>Designed and built a hospital indoor navigation prototype targeting Saudi hospitals, modeling 2 major hospitals across 6 floors with coordinate-mapped navigation</li>
                 <li>Built cross-platform app using Flutter/Dart with Riverpod, Go Router, and Hive &#8212; bilingual EN/AR with RTL support</li>
-                <li>Shipped 4 navigation modules: clinic search, visitor mode, appointment management, emergency ER routing</li>
+                <li>Shipped 4 navigation modules: clinic search, visitor mode, appointment reminder system, emergency routing</li>
                 <li>Led product vision and team coordination from concept to live deployment, presenting Delni at Tuwaiqthon hackathon (Tuwaiq Academy)</li>
             </ul>
         </div>
@@ -348,7 +364,7 @@
         <div class="project-card">
             <div class="project-icon">&#x1F3E5;</div>
             <h3>Delni App &#8212; Hospital Navigation</h3>
-            <p>Indoor navigation platform helping patients find clinics, departments, and emergency rooms inside Saudi hospitals. Bilingual, accessible, voice-enabled.</p>
+            <p>Indoor navigation prototype helping patients find clinics, departments, and emergency rooms inside Saudi hospitals. Bilingual, accessible, voice-enabled.</p>
             <div class="tech-pills">
                 <span class="tech-pill">Flutter</span>
                 <span class="tech-pill">Dart</span>
